@@ -1,0 +1,54 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+enum provider {
+  GITHUB
+  GOOGLE
+  CREDENTIALS
+}
+
+model course {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(255)
+  description String?
+  created_at  DateTime?     @default(now()) @db.Timestamp(6)
+  thumbnail   String?
+  popularity  Int?
+  course_user course_user[]
+  user        user[]
+  videos      videos[]
+}
+
+model course_user {
+  id        Int    @id @default(autoincrement())
+  course_id Int
+  user_id   Int
+  course    course @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_user_course")
+  user      user   @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_course_user_user")
+}
+
+model user {
+  id          Int           @id @default(autoincrement())
+  username    String        @unique @db.VarChar(50)
+  password    String?
+  provider    provider       @default(CREDENTIALS)
+  email       String?        @unique @db.VarChar(60)
+  last_course Int?
+  course_user course_user[]
+  course      course?       @relation(fields: [last_course], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_course")
+}
+
+model videos {
+  id        Int     @id @default(autoincrement())
+  link      String
+  tumbnail  String?
+  length    Int?
+  course_id Int
+  course    course  @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_videos_course")
+}
+
