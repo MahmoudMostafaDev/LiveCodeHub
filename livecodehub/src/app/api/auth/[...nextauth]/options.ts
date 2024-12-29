@@ -83,13 +83,13 @@ export const options = {
   callbacks: {
     async session({ session, token }: any) {
       if (session.user) {
-        session.user.userRole = token.userRole;
+        session.user.username = token.username;
       }
       return session;
     },
-    async jwt({ token, user }: any) {
+    async jwt({ token, user, profile }: any) {
       if (user) {
-        token.userRole = user.userRole;
+        token.username = user.userneame;
       }
       return token;
     },
