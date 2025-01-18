@@ -1,0 +1,58 @@
+@use "@/styles/base/_variables.scss";
+.page {
+  display: flex;
+  flex-direction: column;
+  @media screen and (min-width: variables.$small) {
+    flex-direction: row;
+  }
+}
+
+.Login {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  @media screen and (min-width: variables.$small) {
+    flex: 1;
+    background-color: #1e1e1e;
+    padding: 20px;
+    justify-content: center;
+    height: 100vh;
+  }
+  .form {
+    width: 250px;
+    margin: 0 auto;
+    button {
+      margin: 20px auto;
+    }
+    @media screen and (min-width: variables.$xsmall) {
+      width: 350px;
+    }
+  }
+  .join {
+    text-align: center;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    margin: 20px auto;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: var(--font-inria-sans);
+    font-weight: bold;
+    color: variables.$primary-color;
+    border-bottom: 1px solid variables.$primary-color;
+    padding: 10px;
+  }
+}
+// //screen
+// $xsmall: 430px;
+// $small: 768px;
+// $medium: 1024px;
+// $large: 1280px;
+// $xlarge: 1440px;
+
+// //contianer-width
+// $xsmall-width: 430px;
+// $small-width: 800px;
+// $medium-width: 1000px;
+// $large-width: 1200px;
+// $xlarge-width: 1200px;

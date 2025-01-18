@@ -1,0 +1,33 @@
+@import "@/styles/base/_variables.scss";
+@import "@/styles/base/_utils.scss";
+
+// //screen
+// $xsmall: 430px;
+// $small: 768px;
+// $medium: 1024px;
+// $large: 1280px;
+// $xlarge: 1440px;
+
+// //contianer-width
+// $xsmall-width: 430px;
+// $small-width: 800px;
+// $medium-width: 1000px;
+// $large-width: 1200px;
+// $xlarge-width: 1200px;
+
+.page {
+  margin: auto;
+  max-width: $xsmall-width;
+  @media screen and (min-width: $xsmall) {
+    max-width: $small-width;
+  }
+  @media screen and (min-width: $medium) {
+    max-width: $medium-width;
+  }
+  @media screen and (min-width: $large) {
+    max-width: $large-width;
+  }
+  @media screen and (min-width: $xlarge) {
+    max-width: $xlarge-width;
+  }
+}

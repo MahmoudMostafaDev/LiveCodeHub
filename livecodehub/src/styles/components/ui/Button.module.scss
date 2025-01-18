@@ -1,0 +1,24 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_utils.scss";
+.button {
+  display: block;
+  padding: 10px 20px;
+  background-color: variables.$primary-color;
+  border-radius: 10px;
+  color: variables.$background-one-color;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--font-inria-sans);
+  transition: all 0.3s ease-in-out;
+  box-shadow: utils.$shadow;
+  border: none;
+  &:hover {
+    background-color: variables.$background-one-color;
+    color: variables.$primary-color;
+  }
+  @media screen and (max-width: variables.$xsmall) {
+    font-size: 12px;
+    padding: 8px 11px;
+  }
+}

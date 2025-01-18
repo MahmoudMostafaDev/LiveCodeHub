@@ -1,0 +1,52 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_utils.scss";
+.intro {
+  display: flex;
+  justify-content: center;
+  flex-direction: column-reverse;
+  align-items: center;
+  padding: 1rem;
+  font-family: var(--font-inria-sans);
+  font-weight: 500;
+  margin: auto;
+  @media screen and (min-width: variables.$small) {
+    flex-direction: row;
+    gap: 5rem;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    margin-top: 80px;
+  }
+  @media screen and (min-width: variables.$large) {
+    padding: 0 0px;
+  }
+  img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    box-shadow: utils.$shadow;
+    @media screen and (min-width: variables.$small) {
+      border-radius: 0;
+      width: 320px;
+      height: 320px;
+    }
+    @media screen and (min-width: variables.$large) {
+      width: 385px;
+      height: 385px;
+    }
+  }
+  .content {
+    text-align: center;
+    @media screen and (min-width: variables.$small) {
+      text-align: left;
+    }
+    h2 {
+      color: variables.$primary-color;
+    }
+    p {
+      color: variables.$primary-text-color;
+    }
+    button {
+    }
+  }
+}

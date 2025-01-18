@@ -1,0 +1,39 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_utils.scss";
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: variables.$background-one-color;
+  color: variables.$primary-color;
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-family: var(--font-irish-grover);
+      text-shadow: utils.$shadow;
+      @media screen and (max-width: variables.$xsmall) {
+        font-size: 1rem;
+      }
+    }
+    img {
+      border-radius: 50%;
+      box-shadow: utils.$shadow;
+      @media screen and (max-width: variables.$xsmall) {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .ctas {
+    display: flex;
+    gap: 1rem;
+    @media screen and (max-width: variables.$xsmall) {
+      gap: 0.5rem;
+    }
+  }
+}

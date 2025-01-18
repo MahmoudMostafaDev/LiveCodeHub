@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "@/styles/global.scss";
+import { Inria_Sans } from "next/font/google";
+import { Irish_Grover } from "next/font/google";
+const irishGrover = Irish_Grover({
+  variable: "--font-irish-grover",
+  subsets: ["latin"],
+  weight: ["400"],
+})
+const inriaSans = Inria_Sans({
+  variable: "--font-inria-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "700"],
+})
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +36,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
     </html>

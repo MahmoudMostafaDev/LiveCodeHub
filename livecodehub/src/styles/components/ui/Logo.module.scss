@@ -1,0 +1,25 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_utils.scss";
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    font-family: var(--font-irish-grover);
+    color: variables.$primary-color;
+    text-shadow: utils.$shadow;
+    @media screen and (max-width: variables.$xsmall) {
+      font-size: 1rem;
+    }
+  }
+  img {
+    border-radius: 50%;
+    box-shadow: utils.$shadow;
+    @media screen and (max-width: variables.$xsmall) {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
