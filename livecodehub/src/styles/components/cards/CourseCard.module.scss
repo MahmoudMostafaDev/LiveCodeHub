@@ -1,0 +1,35 @@
+@use "@/styles/base/_variables.scss";
+.card {
+  background-color: variables.$background-three-color;
+  color: white;
+  border-radius: 15px;
+  font-family: var(--font-inria-sans);
+  max-width: 300px;
+  min-width: 250px;
+  .info {
+    font-family: var(--font-inria-sans);
+    padding: 10px 25px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: variables.$primary-color;
+      margin: 0;
+    }
+    .finished {
+      font-size: 14px;
+      font-weight: 400;
+      color: variables.$secondary-text-color;
+      margin: 0;
+    }
+    .description {
+      margin: 0;
+      font-size: 14px;
+      font-weight: bold;
+      color: variables.$primary-text-color;
+    }
+  }
+}
