@@ -1,0 +1,30 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
+.container {
+  @include mixins.createStaticBar(300px, variables.$background-three-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+  font-family: var(--font-inria-sans);
+  img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+  }
+  h3 {
+    font: {
+      size: 25px;
+      weight: bold;
+    }
+    margin: 10px 0 15px 0;
+    color: variables.$primary-color;
+  }
+  p {
+    font: {
+      size: 18px;
+      weight: bold;
+    }
+    margin: 10px 0 10px 0;
+  }
+}

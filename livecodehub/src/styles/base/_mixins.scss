@@ -1,0 +1,9 @@
+@use "@/styles/base/_variables.scss";
+
+@mixin createStaticBar($width, $bachground-color) {
+  background-color: $bachground-color;
+  color: white;
+  height: 100vh;
+  width: $width;
+  box-shadow: 0px 0px 5px variables.$primary-color;
+}
