@@ -1,6 +1,7 @@
 .image {
   position: relative;
   flex: 1;
+  min-width: 220px;
   .videoThumbnail {
     width: 100%;
     border-radius: 15px;
