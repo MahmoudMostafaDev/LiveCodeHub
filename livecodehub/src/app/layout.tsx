@@ -37,7 +37,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
+
         {children}
+
       </body>
     </html>
   );
