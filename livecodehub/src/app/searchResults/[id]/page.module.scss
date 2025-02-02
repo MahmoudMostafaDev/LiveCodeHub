@@ -4,14 +4,10 @@
 .container {
   padding: 0 0 0 30px;
   max-width: 100%;
-
+  flex: 3;
+  color: white;
+  font-family: var(--font-inria-sans);
   @include mixins.breakpoint(variables.$xlarge) {
     max-width: 65%;
-  }
-  .sections {
-    display: flex;
-    margin: 40px auto;
-    flex-direction: column;
-    gap: 40px;
   }
 }

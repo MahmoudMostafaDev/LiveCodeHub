@@ -6,7 +6,7 @@
   align-items: center;
   padding-top: 60px;
   font-family: var(--font-inria-sans);
-  //make it a mixin with breakpoint
+  z-index: 20;
   .closeButton {
     @include mixins.sideBarsCloseButton(right);
   }

@@ -1,0 +1,29 @@
+@use "@/styles/base/_variables.scss";
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 15px;
+  ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    li {
+      cursor: pointer;
+      background-color: variables.$background-two-color;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30px;
+      border-radius: 10px;
+      font-family: var(--font-irish-grover);
+      &:last-child {
+        color: #b4b4b4;
+      }
+      &:hover,
+      &.active {
+        color: variables.$primary-color;
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@
   .closeButton {
     @include mixins.sideBarsCloseButton(left);
   }
+  z-index: 20;
   .sidebar {
     padding: 50px 0px 0px 25px;
     font-family: var(--font-inria-sans);

@@ -1,0 +1,33 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  @include mixins.breakpoint(variables.$xlarge) {
+    justify-content: center;
+  }
+  button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    &:last-child {
+      margin-right: 20px;
+    }
+    &.hidden {
+      display: none;
+    }
+    &.searchOpened {
+      display: none;
+      @include mixins.breakpoint(variables.$xsmall) {
+        display: block;
+      }
+      @include mixins.breakpoint(variables.$xlarge) {
+        display: none;
+      }
+    }
+    @include mixins.breakpoint(variables.$xlarge) {
+      display: none;
+    }
+  }
+}

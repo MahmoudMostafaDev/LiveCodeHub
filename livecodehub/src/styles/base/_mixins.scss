@@ -46,6 +46,11 @@
     @content;
   }
 }
+@mixin maxBreakpoint($breakpoint) {
+  @media screen and (max-width: $breakpoint) {
+    @content;
+  }
+}
 //screen
 // $xsmall: 430px;
 // $small: 768px;

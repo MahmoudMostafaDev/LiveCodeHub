@@ -1,12 +1,24 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
 .search {
   display: flex;
   align-items: center;
+  width: 100%;
   gap: 10px;
   border: 2px solid white;
   border-radius: 50px;
   padding: 3px 20px;
-  max-width: 500px;
   margin: auto;
+  &.closed {
+    @include mixins.maxBreakpoint(variables.$xsmall) {
+      width: 40px;
+      height: 40px;
+      justify-content: center;
+      input {
+        display: none;
+      }
+    }
+  }
   input {
     background-color: transparent;
     border: none;
