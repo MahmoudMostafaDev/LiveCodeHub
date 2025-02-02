@@ -2,12 +2,15 @@
 @use "@/styles/base/_mixins.scss";
 .container {
   @include mixins.createStaticBar(300px, variables.$background-three-color);
-  display: flex;
-  flex-direction: column;
+  right: 0;
   align-items: center;
   padding-top: 60px;
   font-family: var(--font-inria-sans);
-  img {
+  //make it a mixin with breakpoint
+  .closeButton {
+    @include mixins.sideBarsCloseButton(right);
+  }
+  img:not(.colse) {
     border-radius: 50%;
     width: 100px;
     height: 100px;

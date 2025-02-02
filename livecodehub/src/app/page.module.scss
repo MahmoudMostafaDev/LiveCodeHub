@@ -1,5 +1,12 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
+
 .container {
-  padding: 0 40px;
+  padding: 0 0 0 30px;
+  max-width: 100%;
+  @include mixins.breakpoint(variables.$xlarge) {
+    max-width: 65%;
+  }
   .sections {
     display: flex;
     margin: 40px auto;

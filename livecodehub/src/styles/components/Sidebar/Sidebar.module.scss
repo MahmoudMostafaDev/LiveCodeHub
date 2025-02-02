@@ -3,6 +3,9 @@
 
 .container {
   @include mixins.createStaticBar(300px, variables.$background-three-color);
+  .closeButton {
+    @include mixins.sideBarsCloseButton(left);
+  }
   .sidebar {
     padding: 50px 0px 0px 25px;
     font-family: var(--font-inria-sans);

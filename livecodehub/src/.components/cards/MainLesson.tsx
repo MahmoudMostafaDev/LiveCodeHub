@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from "@/styles/components/cards/MainLesson.module.scss";
-import Image from 'next/image';
 import CardVideo from './CardVideo';
 interface props {
     title: string;
