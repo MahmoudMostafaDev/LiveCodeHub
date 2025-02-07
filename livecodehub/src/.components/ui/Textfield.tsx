@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styles from '@/styles/components/ui/Textfield.module.scss';
 import { ReactNode, useState } from 'react';
 export type TextfieldProps = {
@@ -8,7 +8,7 @@ export type TextfieldProps = {
     type?: "text" | "password";
     children?: ReactNode;
 }
-const Textfield: React.FC<TextfieldProps> = ({ title, name, type = "text", children = <></> }) => {
+const Textfield = forwardRef<HTMLInputElement, TextfieldProps>(({ title, name, type = "text", children = <></> }, ref) => {
     const [isEmpty, setIsEmpty] = useState(true);
     const [isFocused, setIsFocused] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
@@ -25,7 +25,7 @@ const Textfield: React.FC<TextfieldProps> = ({ title, name, type = "text", child
             <label htmlFor={name} className={!isUp ? styles.labelDown : styles.labelUP}
                 onPointerEnter={() => setIsHovered(true)}
                 onPointerLeave={() => setIsHovered(false)}>{title}</label>
-            <input type={type} id={name} name={name} onChange={handleChange}
+            <input ref={ref} type={type} id={name} name={name} onChange={handleChange}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 onPointerEnter={() => setIsHovered(true)}
@@ -33,6 +33,6 @@ const Textfield: React.FC<TextfieldProps> = ({ title, name, type = "text", child
             {children}
         </div>
     );
-}
+})
 
 export default Textfield;
