@@ -5,8 +5,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { generateRandomUsername } from "../../lib/functions";
 import ErrorAuth from "../../lib/Error";
-import { scrypt, timingSafeEqual } from "crypto";
+import { scrypt, sign, timingSafeEqual } from "crypto";
 import { promisify } from "util";
+import { pages } from "next/dist/build/templates/app-page";
+import { signOut } from "next-auth/react";
 
 /*
 codes- 100 for git 200 fot google 300 for credentials 4 other
@@ -19,6 +21,11 @@ codes- 100 for git 200 fot google 300 for credentials 4 other
 */
 export const options = {
   secret: process.env.NEXTAUTH_SECRET,
+  pages: {
+    signIn: "/auth/login",
+    signOut: "/",
+    signUp: "/auth/signup",
+  },
   providers: [
     GitHubProvider({
       async profile(profile: GithubProfile) {
@@ -30,7 +37,6 @@ export const options = {
           ...user,
         };
       },
-
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
     }),
@@ -66,7 +72,7 @@ export const options = {
           where: { username: credentials?.username },
           select: { id: true, username: true, password: true },
         });
-        if (!user) throw new ErrorAuth("Invalid username or password", 302);
+        if (!user) throw new ErrorAuth("Invalid username or password", 301);
         const isPasswordValid = await comparePasswords(
           user.password as string,
           credentials.password
