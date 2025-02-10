@@ -6,10 +6,12 @@ import Section from './Section';
 import Image from 'next/image';
 import { actions } from '@/features/controlUI/controlUISlice';
 import { useAppDispatch, useAppSelector } from '@/lib/reduxHooks';
+import { usePathname } from 'next/navigation';
 const Sidebar = () => {
+    const pathname = usePathname();
+    if (pathname === "/auth/login" || pathname === "/auth/signup" || pathname === "/landing") return null
     const dispatch = useAppDispatch();
     const { sidebar } = useAppSelector(state => state.controUI);
-
     const overviewSection = [
         {
             title: "Main page",
