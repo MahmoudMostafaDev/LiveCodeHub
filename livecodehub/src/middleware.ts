@@ -1,29 +1,48 @@
 import { getServerSession } from "next-auth";
-import withAuth from "next-auth/middleware";
+import withAuth, { NextRequestWithAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import { options } from "./app/api/auth/[...nextauth]/options";
-import { getToken } from "next-auth/jwt";
+import { getToken, JWT } from "next-auth/jwt";
+// to get token :     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+
 export default withAuth(
   async function middleware(req) {
-    // console.log(req.nextauth);
-    // const session = await getServerSession(options);
-    // const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    // console.log(token);
-    // console.log(req.nextauth.token);
-    // console.log(req.nextUrl.pathname);
-    // console.log("0000000000000000000000000000000");
-    // if (req.nextUrl.pathname.startsWith("/api/courses")) {
-    //   const headers = new Headers(req.headers);
-    //   headers.set("x-user", req.nextauth.token?.username as string);
-    //   console.log(req.nextauth.token?.username);
-    //   console.log("ss");
-    //   return NextResponse.next({ request: new Request(req, { headers }) });
-    // }
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    return req.nextUrl.pathname.startsWith("/api")
+      ? apiManager(req, token)
+      : manageProtectedPages(req, token);
   },
   {
     callbacks: {
-      authorized: (token) => !!token,
+      authorized: ({ token }) => true,
     },
   }
 );
-export const config = { matcher: ["/api/courses/:path*"] };
+export const config = { matcher: ["/:path*"] };
+
+async function manageProtectedPages(
+  req: NextRequestWithAuth,
+  token: JWT | null
+) {
+  const { pathname } = req.nextUrl;
+  if (
+    !token &&
+    !pathname.startsWith("/landing") &&
+    !pathname.startsWith("/auth")
+  ) {
+    return NextResponse.redirect(new URL("/landing", req.url));
+  } else if (
+    token &&
+    ["/auth", "/landing"].some((route) => pathname.startsWith(route))
+  ) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
+}
+
+async function apiManager(req: NextRequestWithAuth, token: JWT | null) {
+  if (req.nextUrl.pathname.startsWith("/api/courses")) {
+    const headers = new Headers(req.headers);
+    headers.set("x-user", token?.username as string);
+    return NextResponse.next({ request: new Request(req, { headers }) });
+  }
+}
