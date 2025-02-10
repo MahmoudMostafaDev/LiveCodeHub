@@ -44,7 +44,7 @@ const Page = () => {
                         <Button disabled={isDisabled} title='I want to Teach' style={{ width: '60%', backgroundColor: '#C1C1C1' }} />
                     </div>
                 </form>
-                <button className={classes.join}>Already With Us ? Login </button>
+                <button onClick={() => router.push('/auth/login')} className={classes.join}>Already With Us ? Login </button>
             </div>
         </div>
     );
