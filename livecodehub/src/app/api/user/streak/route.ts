@@ -5,7 +5,7 @@ import { checkAuthorization } from "../../auth/authHelpers";
 export async function GET(req: NextRequest) {
   //auth
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  const username = token?.username as string;
+  const username = token?.name as string;
   try {
     const { id, isAuth } = await checkAuthorization(username);
     if (!isAuth || !id) return new Response("Unauthorized", { status: 401 });
@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
     const streak = await findStreak(id);
     if (!streak) {
       const newStreak = await createStreak(id, 0);
-      return new Response(JSON.stringify(newStreak), {
+      return new Response(JSON.stringify({ streak: newStreak.value }), {
         status: 200,
       });
     }
@@ -21,11 +21,13 @@ export async function GET(req: NextRequest) {
     //48 hours have passed
     if (streak.lastAction.getTime() < theSecondLastDay.getTime()) {
       const newStreak = await updateStreak(0, id);
-      return new Response(JSON.stringify(newStreak), {
+      return new Response(JSON.stringify({ streak: newStreak.value }), {
         status: 200,
       });
     }
-    return new Response(JSON.stringify(streak), { status: 200 });
+    return new Response(JSON.stringify({ streak: streak.value }), {
+      status: 200,
+    });
   } catch (error) {
     console.log(error);
     return new Response("Failed to get streak", { status: 500 });
