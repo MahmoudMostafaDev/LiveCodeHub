@@ -41,6 +41,7 @@ model user {
   password String?
   provider provider   @default(CREDENTIALS)
   email    String?    @unique @db.VarChar(60)
+  image    String?
   students students[]
   teacher  teacher[]
 }
