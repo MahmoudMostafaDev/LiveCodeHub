@@ -1,4 +1,5 @@
-import React from 'react';
+"use client"
+import React, { useState } from 'react';
 import styles from "@/styles/components/cards/CardViedo.module.scss";
 import Image from 'next/image';
 interface props {
@@ -6,14 +7,20 @@ interface props {
     image: string
 }
 const CardVideo: React.FC<props> = ({ title, image }) => {
+    const [showImage, setShowImage] = useState(image.startsWith("/") ? image : `/${image}`);
+    function onErrorHandler() {
+        setShowImage("/Placeholders/video.png");
+    }
     return (
         <div className={styles.image}>
             <Image
                 className={styles.videoThumbnail}
-                src={image}
+                src={showImage}
                 alt={title}
                 width={260}
                 height={200}
+                onError={onErrorHandler}
+                onErrorCapture={onErrorHandler}
             />
             <div className={styles.blure}></div>
             <Image
