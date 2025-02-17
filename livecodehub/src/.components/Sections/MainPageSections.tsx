@@ -1,5 +1,5 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from "@/styles/components/Sections/MainPageSections.module.scss";
 import SectionHeader from '../ui/SectionHeader';
 
@@ -9,7 +9,17 @@ interface MainPageSectionsProps {
     title: string
 }
 const MainPageSections: React.FC<MainPageSectionsProps> = ({ title, widthOfElement, children }) => {
+    const [showButtons, setShowButtons] = React.useState(false);
     const ref = React.useRef<HTMLUListElement>(null);
+    useEffect(() => {
+        if (ref.current) {
+            if (ref.current.scrollWidth > ref.current.clientWidth) {
+                setShowButtons(true);
+            } else {
+                setShowButtons(false);
+            }
+        }
+    }, [ref?.current?.scrollWidth, ref?.current?.clientWidth]);
     function handleScrolRightlbtn() {
         /* 
             -scrollFormEnd : where the edge of the container is from the end of the scrollable area
@@ -72,8 +82,10 @@ const MainPageSections: React.FC<MainPageSectionsProps> = ({ title, widthOfEleme
                     );
                 })}
             </ul>
-            <button className={styles.leftbtn} onClick={handleScrolLeftlbtn}></button>
-            <button className={styles.rightbtn} onClick={handleScrolRightlbtn}></button>
+            {showButtons && <button className={styles.leftbtn} onClick={handleScrolLeftlbtn}></button>
+            }
+            {showButtons && <button className={styles.rightbtn} onClick={handleScrolRightlbtn}></button>
+            }
         </div>
     );
 }
