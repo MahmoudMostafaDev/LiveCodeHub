@@ -1,6 +1,7 @@
 //GET fetch Functions should return this structure : { data : any, error : string, showErrorToUser : boolean }
 
 import type { GetStructure } from "../hooks/useGet";
+import Link from "next/link";
 
 async function getFunction<T>(
   url: string,
@@ -149,3 +150,75 @@ export const getContinueLearning = async () =>
     "/api/courses/continue",
     continueLearningError
   );
+
+export type PopularCourses = {
+  id: number;
+  name: string;
+  description: string;
+  thumbnail: string;
+};
+
+const popularError = async (res: Response): Promise<GetStructure<null>> => {
+  const { status } = res;
+  console.log(status);
+  let error = "";
+  let showErrorToUser = false;
+  switch (status) {
+    case 404:
+      error = "none";
+      showErrorToUser = true;
+      break;
+    case 500:
+      error = "can't get Courses";
+      showErrorToUser = true;
+      break;
+    default:
+      error = res.statusText || "Unexpected error";
+      showErrorToUser = true;
+      break;
+  }
+  return { data: null, error, showErrorToUser };
+};
+
+export const getPopularCourses = async () =>
+  await getFunction<PopularCourses[]>("/api/courses/popular", popularError);
+
+export type mainVideo = {
+  id: number;
+  link: string;
+  title: string;
+  tumbnail: string;
+  length: number;
+  order: number;
+  course: string;
+  totalVideos: number;
+};
+
+const mainVideoError = async (res: Response): Promise<GetStructure<null>> => {
+  const { status } = res;
+  console.log(status);
+  let error = "";
+  let showErrorToUser = false;
+  switch (status) {
+    case 401:
+      error = "Unauthorized";
+      showErrorToUser = true;
+      break;
+    case 404:
+      error = "none";
+      showErrorToUser = true;
+      break;
+    case 500:
+      error = "can't get Videos";
+      showErrorToUser = true;
+      break;
+    default:
+      error = res.statusText || "Unexpected error";
+      showErrorToUser = true;
+      break;
+  }
+  return { data: null, error, showErrorToUser };
+};
+
+export const getMainVideo = async () =>
+  await getFunction<mainVideo>("/api/courses/lastcourse", mainVideoError);
