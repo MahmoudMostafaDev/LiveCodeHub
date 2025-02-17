@@ -8,7 +8,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: variables.$background-one-color;
+  & > :nth-last-child(2) {
+    display: none;
+  }
 }
 * {
   box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
 }

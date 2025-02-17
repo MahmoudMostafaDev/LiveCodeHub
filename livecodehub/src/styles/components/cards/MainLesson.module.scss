@@ -10,10 +10,12 @@
   max-width: 350px;
   background-color: variables.$background-three-color;
   margin: auto;
+  margin-top: 30px;
   @media screen and (min-width: variables.$small) {
     flex-direction: row;
     max-width: 1000px;
-    margin: 0;
+    margin: 0 auto;
+    margin-top: 30px;
   }
 
   .content {

@@ -1,4 +1,5 @@
 @use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
 .container {
   position: relative;
   ul {
@@ -7,12 +8,19 @@
     padding: 0;
     margin-top: 0px;
     display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 30px;
     scrollbar-width: none;
     li {
       cursor: pointer;
       border-radius: 10px;
-      margin: 0 auto;
+      @include mixins.maxBreakpoint(variables.$xsmall) {
+        margin: 0px auto;
+      }
+      &:first-child {
+        margin-left: 15px;
+      }
     }
   }
   button {

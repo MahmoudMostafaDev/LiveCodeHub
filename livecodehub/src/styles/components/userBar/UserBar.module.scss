@@ -1,12 +1,13 @@
 @use "@/styles/base/_variables.scss";
 @use "@/styles/base/_mixins.scss";
 .container {
-  right: 0;
   align-items: center;
   padding-top: 60px;
   font-family: var(--font-inria-sans);
   z-index: 20;
   @include mixins.createStaticBar(300px, variables.$background-three-color);
+  right: 0;
+
   .closeButton {
     @include mixins.sideBarsCloseButton(right);
   }

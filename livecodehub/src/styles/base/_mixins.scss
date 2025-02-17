@@ -13,7 +13,7 @@
   @include breakpoint(variables.$xlarge) {
     position: sticky;
     top: 0;
-    width: $width;
+    max-width: $width;
     display: flex;
     flex-direction: column;
   }

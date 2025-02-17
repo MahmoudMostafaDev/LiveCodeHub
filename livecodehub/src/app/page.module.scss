@@ -2,12 +2,16 @@
 @use "@/styles/base/_mixins.scss";
 
 .container {
-  padding: 0 0 0 30px;
-  max-width: 100%;
-
+  padding: 0;
+  position: sticky;
   @include mixins.breakpoint(variables.$xlarge) {
-    max-width: 65%;
+    flex-grow: 1;
+    max-width: calc(100% - 600px);
   }
+  @include mixins.maxBreakpoint(variables.$xlarge) {
+    min-width: 100%;
+  }
+
   .sections {
     display: flex;
     margin: 40px auto;
