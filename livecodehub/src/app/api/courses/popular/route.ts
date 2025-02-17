@@ -13,6 +13,7 @@ export async function GET(req: Request) {
         thumbnail: true,
       },
     });
+    if (!courses) return new Response(JSON.stringify({}), { status: 404 });
     return new Response(JSON.stringify(courses), { status: 200 });
   } catch (error) {
     console.log(error);
