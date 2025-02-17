@@ -60,7 +60,6 @@ export async function signup(userData: { username: string; password: string }) {
       error: null,
     };
   } catch (err: any) {
-    console.log(err);
     return {
       success: false,
       data: null,
