@@ -7,6 +7,7 @@ import { Irish_Grover } from "next/font/google";
 import Sidebar from "@/.components/Sidebar/Sidebar";
 import UserBar from "@/.components/userBar/UserBar";
 import ReduxProvider from '../.components/ReduxProvider';
+import AuthProvider from "./clientMember/authProvider";
 
 const irishGrover = Irish_Grover({
   variable: "--font-irish-grover",
@@ -41,11 +42,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ReduxProvider><body style={{ gap: "0", display: 'flex', justifyContent: "space-between" }} className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
-        <Sidebar />
-        {children}
-        <UserBar />
-      </body></ReduxProvider>
+      <AuthProvider>
+        <ReduxProvider>
+          <body style={{ display: 'flex', justifyContent: 'space-between' }} className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
+            <Sidebar />
+            {children}
+            <UserBar />
+          </body></ReduxProvider></AuthProvider>
 
     </html>
   );
