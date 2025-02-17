@@ -13,7 +13,7 @@ enum provider {
   CREDENTIALS
 }
 
-model course {
+model courses {
   id               Int                @id @default(autoincrement())
   name             String             @db.VarChar(255)
   description      String?
@@ -31,11 +31,11 @@ model course_user {
   id        Int      @id @default(autoincrement())
   course_id Int
   user_id   Int
-  course    course   @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_course_user_course")
+  course    courses  @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_course_user_course")
   students  students @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "fk_course_user_user")
 }
 
-model user {
+model users {
   id       Int        @id @default(autoincrement())
   username String     @unique @db.VarChar(50)
   password String?
@@ -43,25 +43,33 @@ model user {
   email    String?    @unique @db.VarChar(60)
   image    String?
   students students[]
-  teacher  teacher[]
+  teacher  teachers[]
 }
 
-model teacher {
-  id      Int  @id @default(autoincrement())
+model teachers {
+  id      Int   @id @default(autoincrement())
   user_id Int
-  user    user @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user    users @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model students {
   user_id          Int                @unique
-  user             user               @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  user             users              @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   last_course      Int?
   course_user      course_user[]
-  course           course?            @relation(fields: [last_course], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_course")
+  course           courses?           @relation(fields: [last_course], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_course")
   user_video_stops user_video_stops[]
+  student_progress student_progress[]
   streak           streak?
   todayCounter     Int                @default(0)
-  counterData      DateTime           @default(now())
+  counterDate      DateTime           @default(now())
+}
+
+model student_progress {
+  id      Int @id @default(autoincrement())
+  user_id Int @unique
+
+  students students @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model streak {
@@ -77,7 +85,7 @@ model user_video_stops {
   video_id  Int
   order     Int
   course_id Int
-  course    course   @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  course    courses  @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
   students  students @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction)
   video     videos   @relation(fields: [video_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 
@@ -89,9 +97,10 @@ model videos {
   id               Int                @id @default(autoincrement())
   link             String
   title            String             @default("video")
-  tumbnail         String?
+  thumbnail        String?
+  order            Int                @default(0)
   length           Int?
   course_id        Int
-  course           course             @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  course           courses            @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user_video_stops user_video_stops[]
 }
