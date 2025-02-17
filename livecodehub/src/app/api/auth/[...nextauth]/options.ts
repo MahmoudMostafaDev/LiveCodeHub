@@ -5,10 +5,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { prisma } from "@/lib/prisma";
 import { generateRandomUsername } from "../../lib/functions";
 import ErrorAuth from "../../lib/Error";
-import { scrypt, sign, timingSafeEqual } from "crypto";
+import { scrypt, timingSafeEqual } from "crypto";
 import { promisify } from "util";
-import { pages } from "next/dist/build/templates/app-page";
-import { signOut } from "next-auth/react";
 
 /*
 codes- 100 for git 200 fot google 300 for credentials 4 other
@@ -33,8 +31,8 @@ export const options = {
           throw new ErrorAuth("Github user has no email", 101);
         const user = await gitAndGoogleAuth(profile);
         return {
-          id: user?.id || profile.id.toString(),
           ...user,
+          id: user?.id || profile.id.toString(),
         };
       },
       clientId: process.env.GITHUB_ID || "",
@@ -46,8 +44,8 @@ export const options = {
           throw new ErrorAuth("Google user has no email", 201);
         const user = await gitAndGoogleAuth(profile, true);
         return {
-          id: user?.id || profile.id.toString(),
           ...user,
+          id: user?.id || profile.id.toString(),
         };
       },
       clientId: process.env.GOOGLE_ID || "",
@@ -81,7 +79,7 @@ export const options = {
           throw new ErrorAuth("Invalid username or password", 303);
         return {
           id: user.id.toString() || credentials.username,
-          userneame: user.username,
+          username: user.username,
         };
       },
     }),
@@ -89,13 +87,15 @@ export const options = {
   callbacks: {
     async session({ session, token }: any) {
       if (session.user) {
-        session.user.username = token.username;
+        session.user.name = token.username;
+        session.user.id = token.id;
       }
       return session;
     },
     async jwt({ token, user, profile }: any) {
       if (user) {
-        token.username = user.userneame;
+        token.name = user.username;
+        token.id = user.id;
       }
       return token;
     },
@@ -120,11 +120,12 @@ async function gitAndGoogleAuth(
     }
     return {
       id: user?.id.toString(),
-      userneame: user?.username,
+      username: user?.username,
       getUsername: isWillBeCreated,
     };
   } catch (err) {
     console.log(err);
+    throw new ErrorAuth("Failed to connect to google/github", 401);
   }
 }
 
@@ -145,12 +146,12 @@ async function createUser(
 }
 
 async function comparePasswords(original: string, needed: string) {
-  const scryptAsync = promisify(scrypt);
-  const [hashed, salt] = original.split(":");
-  const derivedKey = await scryptAsync(needed, salt, 64);
-  const is = await timingSafeEqual(
-    Buffer.from(original),
-    Buffer.from(`${derivedKey}:${salt}`)
-  );
-  return is;
+  try {
+    const scryptAsync = promisify(scrypt);
+    const [hashed, salt] = original.split(":");
+    const derivedKey = await scryptAsync(needed, salt, 64);
+    return timingSafeEqual(Buffer.from(hashed), Buffer.from(`${derivedKey}`));
+  } catch (error) {
+    return false;
+  }
 }
