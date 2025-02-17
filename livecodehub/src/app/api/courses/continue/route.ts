@@ -8,13 +8,14 @@ import { checkAuthorization } from "../../auth/authHelpers";
 export async function GET(req: NextRequest) {
   const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
   const username = token?.username as string;
+  const id = token?.id as string;
   try {
     if (!checkAuthorization(username))
       return new Response("Unauthorized", { status: 401 });
     const videos = await prisma.user_video_stops.findMany({
       where: {
-        user: {
-          username: username,
+        students: {
+          user_id: Number(id),
         },
       },
       select: {
@@ -34,10 +35,12 @@ export async function GET(req: NextRequest) {
         },
       },
     });
-    if (!videos) return new Response("No videos Found", { status: 404 });
+
+    if (!videos) return new Response(JSON.stringify({}), { status: 404 });
     return new Response(JSON.stringify(videos), { status: 200 });
   } catch (error) {
-    console.log(error);
-    return new Response("Failed to get courses", { status: 500 });
+    return new Response(JSON.stringify({ ff: "ff" }), {
+      status: 500,
+    });
   }
 }
