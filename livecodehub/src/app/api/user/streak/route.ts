@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { getStudentId } from "@/utils/DbQuery";
 import { getToken } from "next-auth/jwt";
 import { checkAuthorization } from "../../auth/authHelpers";
 export async function GET(req: NextRequest) {
@@ -9,10 +10,11 @@ export async function GET(req: NextRequest) {
   try {
     const { id, isAuth } = await checkAuthorization(username);
     if (!isAuth || !id) return new Response("Unauthorized", { status: 401 });
-
-    const streak = await findStreak(id);
+    const studentId = await getStudentId(id);
+    if (studentId === -1) return new Response("Unauthorized", { status: 401 });
+    const streak = await findStreak(studentId);
     if (!streak) {
-      const newStreak = await createStreak(id, 0);
+      const newStreak = await createStreak(studentId, 0);
       return new Response(JSON.stringify({ streak: newStreak.value }), {
         status: 200,
       });
@@ -20,7 +22,7 @@ export async function GET(req: NextRequest) {
     const [, theSecondLastDay] = getDates();
     //48 hours have passed
     if (streak.lastAction.getTime() < theSecondLastDay.getTime()) {
-      const newStreak = await updateStreak(0, id);
+      const newStreak = await updateStreak(0, studentId);
       return new Response(JSON.stringify({ streak: newStreak.value }), {
         status: 200,
       });
@@ -40,9 +42,11 @@ export async function POST(req: NextRequest) {
   try {
     const { id, isAuth } = await checkAuthorization(username);
     if (!isAuth || !id) return new Response("Unauthorized", { status: 401 });
-    const streak = await findStreak(id);
+    const studentId = await getStudentId(id);
+    if (studentId === -1) return new Response("Unauthorized", { status: 401 });
+    const streak = await findStreak(studentId);
     if (!streak) {
-      const newStreak = await createStreak(id, 1);
+      const newStreak = await createStreak(studentId, 1);
       return new Response(JSON.stringify(newStreak), {
         status: 200,
       });
@@ -50,12 +54,12 @@ export async function POST(req: NextRequest) {
       const [yesterday, theSecondLastDay] = getDates();
       //if 48 hours have passed
       if (streak.lastAction.getTime() < theSecondLastDay.getTime()) {
-        const newStreak = await updateStreak(1, id);
+        const newStreak = await updateStreak(1, studentId);
         return new Response(JSON.stringify(newStreak), {
           status: 200,
         });
       } else if (isDoneThatDay(streak.lastAction, yesterday)) {
-        const newStreak = await updateStreak(streak.value + 1, id);
+        const newStreak = await updateStreak(streak.value + 1, studentId);
         return new Response(JSON.stringify(newStreak), {
           status: 200,
         });
@@ -90,7 +94,7 @@ function isDoneThatDay(lastAction: Date, day: Date) {
 
 async function updateStreak(value: number, id: number) {
   const newStreak = await prisma.streak.update({
-    where: { user_id: id },
+    where: { studentId: id },
     data: {
       value,
       lastAction: new Date(),
@@ -100,9 +104,9 @@ async function updateStreak(value: number, id: number) {
 }
 async function findStreak(id: number) {
   const streak = await prisma.streak.findUnique({
-    where: { user_id: id },
+    where: { studentId: id },
     select: {
-      id: true,
+      studentId: true,
       value: true,
       lastAction: true,
     },
@@ -113,7 +117,7 @@ async function createStreak(id: number, value: number) {
   const newStreak = await prisma.streak.create({
     data: {
       value: value,
-      user_id: id,
+      studentId: id,
       lastAction: new Date(),
     },
   });
