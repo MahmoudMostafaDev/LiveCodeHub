@@ -135,6 +135,7 @@ model student {
   courses         course[]
   streak          streak?
   studentProgress studentProgress?
+  enrollments     enrollment[]
 }
 
 model streak {
@@ -145,13 +146,13 @@ model streak {
 }
 
 model studentProgress {
-  studetId              Int       @unique
+  studentId             Int       @unique
   lastCourseId          Int?
   lessonWatchedToday    Int?
   lastLessonWatchedDate DateTime?
 
   course  course? @relation(fields: [lastCourseId], references: [id])
-  student student @relation(fields: [studetId], references: [id])
+  student student @relation(fields: [studentId], references: [id])
 }
 
 model course {
@@ -165,8 +166,10 @@ model course {
   lastModified DateTime @updatedAt()
 
   lessonsSources  lesson[]
-  students        student[]
+  enrollments     enrollment[]
   studentProgress studentProgress[]
+  student         student?          @relation(fields: [studentId], references: [id])
+  studentId       Int?
 }
 
 model lesson {
@@ -189,6 +192,16 @@ model video {
   duration     Int
 
   lesson lesson?
+}
+
+model enrollment {
+  studentId Int
+  courseId  Int
+
+  student student @relation(fields: [studentId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  course  course  @relation(fields: [courseId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+
+  @@id([studentId, courseId])
 }
 
 model studentLastLessonsStops {
