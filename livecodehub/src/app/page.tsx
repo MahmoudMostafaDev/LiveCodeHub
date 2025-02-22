@@ -26,9 +26,6 @@ export default function Home() {
         </MainPageSections>}
         {popularVideos && <MainPageSections title="Popular" widthOfElement={280} >
           {popularVideos}
-          {popularVideos}
-          {popularVideos}
-          {popularVideos}
         </MainPageSections>}
       </div>
     </div>
