@@ -1,4 +1,5 @@
-import { PrismaClient, provider } from "@prisma/client";
+import { lessonType, PrismaClient, provider } from "@prisma/client";
+import { trackSynchronousRequestDataAccessInDev } from "next/dist/server/app-render/dynamic-rendering";
 
 const prisma = new PrismaClient();
 
@@ -6,162 +7,819 @@ let DATA = {
   users: [
     {
       id: 1,
-      username: "john_doe1",
-      password: "hashed_password_1",
+      username: "maged",
+      password: "1231",
       provider: "CREDENTIALS",
-      email: "john@example.com",
+      email: "maged@gmail.com",
       image: "https://random.imagecdn.app/500/150",
     },
     {
-      id: 11,
-      username: "jane_smith1",
-      password: "hashed_password_2",
-      provider: "GOOGLE",
-      email: "jane@example.com",
-      image: "https://random.imagecdn.app/500/150",
+      id: 2,
+      username: "ahmed",
+      password: "4562",
+      provider: "CREDENTIALS",
+      email: "ahmed@gmail.com",
+      image: "https://random.imagecdn.app/500/151",
     },
     {
-      id: 12,
-      username: "mike_github1",
-      provider: "GITHUB",
-      email: "mike@example.com",
-      image: "https://random.imagecdn.app/500/150",
+      id: 3,
+      username: "sara",
+      password: "7893",
+      provider: "CREDENTIALS",
+      email: "sara@gmail.com",
+      image: "https://random.imagecdn.app/500/152",
+    },
+    {
+      id: 4,
+      username: "youssef",
+      password: "1594",
+      provider: "CREDENTIALS",
+      email: "youssef@gmail.com",
+      image: "https://random.imagecdn.app/500/153",
+    },
+    {
+      id: 5,
+      username: "fatma",
+      password: "7535",
+      provider: "CREDENTIALS",
+      email: "fatma@gmail.com",
+      image: "https://random.imagecdn.app/500/154",
     },
   ],
+  teachers: [{ id: 1, userId: 5 }],
   students: [
     {
-      user_id: 10,
+      id: 1,
+      userId: 1,
     },
     {
-      user_id: 11,
+      id: 2,
+      userId: 2,
     },
     {
-      user_id: 12,
+      id: 3,
+      userId: 3,
+    },
+    {
+      id: 4,
+      userId: 4,
+    },
+  ],
+  streaks: [
+    {
+      id: 1,
+      value: 2,
+      lastAction: new Date(),
+    },
+    {
+      id: 2,
+      value: 5,
+      lastAction: new Date(),
+    },
+    {
+      id: 3,
+      value: 12,
+      lastAction: new Date(),
+    },
+    {
+      id: 4,
+      value: 0,
+      lastAction: new Date(),
     },
   ],
   courses: [
     {
       id: 1,
-      name: "Introduction to Programming",
-      description: "Learn the basics of programming using JavaScript.",
-      thumbnail: "intro_programming.png",
-      popularity: 120,
-      counter: 45,
+      name: "Course 1",
+      description:
+        "This is the description for Course 1. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=1",
+      popularity: 3,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
     },
     {
       id: 2,
-      name: "Advanced React",
-      description: "Master React hooks and state management.",
-      thumbnail: "advanced_react.png",
-      popularity: 98,
-      counter: 25,
-    },
-  ],
-  course_user: [
-    {
-      id: 1,
-      course_id: 1,
-      user_id: 10,
-    },
-    {
-      id: 2,
-      course_id: 2,
-      user_id: 11,
+      name: "Course 2",
+      description:
+        "This is the description for Course 2. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=2",
+      popularity: 5,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
     },
     {
       id: 3,
-      course_id: 1,
-      user_id: 12,
+      name: "Course 3",
+      description:
+        "This is the description for Course 3. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=3",
+      popularity: 2,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
     },
+    {
+      id: 4,
+      name: "Course 4",
+      description:
+        "This is the description for Course 4. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=4",
+      popularity: 4,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+    {
+      id: 5,
+      name: "Course 5",
+      description:
+        "This is the description for Course 5. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=5",
+      popularity: 1,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+    {
+      id: 6,
+      name: "Course 6",
+      description:
+        "This is the description for Course 6. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=6",
+      popularity: 3,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+    {
+      id: 7,
+      name: "Course 7",
+      description:
+        "This is the description for Course 7. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=7",
+      popularity: 5,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+    {
+      id: 8,
+      name: "Course 8",
+      description:
+        "This is the description for Course 8. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=8",
+      popularity: 2,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+    {
+      id: 9,
+      name: "Course 9",
+      description:
+        "This is the description for Course 9. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=9",
+      popularity: 4,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+    {
+      id: 10,
+      name: "Course 10",
+      description:
+        "This is the description for Course 10. Lorem ipsum dolor sit amet...",
+      thumbnail: "https://random.imagecdn.app/500/150?course=10",
+      popularity: 1,
+      lessons: 5,
+      createdAt: new Date(),
+      lastModified: new Date(),
+    },
+  ],
+  lessons: [
+    { id: 1, lessonType: "VIDEO", sourceId: 1, courseId: 1 },
+    { id: 2, lessonType: "VIDEO", sourceId: 2, courseId: 1 },
+    { id: 3, lessonType: "VIDEO", sourceId: 3, courseId: 1 },
+    { id: 4, lessonType: "VIDEO", sourceId: 4, courseId: 1 },
+    { id: 5, lessonType: "VIDEO", sourceId: 5, courseId: 1 },
+    { id: 6, lessonType: "VIDEO", sourceId: 6, courseId: 2 },
+    { id: 7, lessonType: "VIDEO", sourceId: 7, courseId: 2 },
+    { id: 8, lessonType: "VIDEO", sourceId: 8, courseId: 2 },
+    { id: 9, lessonType: "VIDEO", sourceId: 9, courseId: 2 },
+    { id: 10, lessonType: "VIDEO", sourceId: 10, courseId: 2 },
+    { id: 11, lessonType: "VIDEO", sourceId: 11, courseId: 3 },
+    { id: 12, lessonType: "VIDEO", sourceId: 12, courseId: 3 },
+    { id: 13, lessonType: "VIDEO", sourceId: 13, courseId: 3 },
+    { id: 14, lessonType: "VIDEO", sourceId: 14, courseId: 3 },
+    { id: 15, lessonType: "VIDEO", sourceId: 15, courseId: 3 },
+    { id: 16, lessonType: "VIDEO", sourceId: 16, courseId: 4 },
+    { id: 17, lessonType: "VIDEO", sourceId: 17, courseId: 4 },
+    { id: 18, lessonType: "VIDEO", sourceId: 18, courseId: 4 },
+    { id: 19, lessonType: "VIDEO", sourceId: 19, courseId: 4 },
+    { id: 20, lessonType: "VIDEO", sourceId: 20, courseId: 4 },
+    { id: 21, lessonType: "VIDEO", sourceId: 21, courseId: 5 },
+    { id: 22, lessonType: "VIDEO", sourceId: 22, courseId: 5 },
+    { id: 23, lessonType: "VIDEO", sourceId: 23, courseId: 5 },
+    { id: 24, lessonType: "VIDEO", sourceId: 24, courseId: 5 },
+    { id: 25, lessonType: "VIDEO", sourceId: 25, courseId: 5 },
+    { id: 26, lessonType: "VIDEO", sourceId: 26, courseId: 6 },
+    { id: 27, lessonType: "VIDEO", sourceId: 27, courseId: 6 },
+    { id: 28, lessonType: "VIDEO", sourceId: 28, courseId: 6 },
+    { id: 29, lessonType: "VIDEO", sourceId: 29, courseId: 6 },
+    { id: 30, lessonType: "VIDEO", sourceId: 30, courseId: 6 },
+    { id: 31, lessonType: "VIDEO", sourceId: 31, courseId: 7 },
+    { id: 32, lessonType: "VIDEO", sourceId: 32, courseId: 7 },
+    { id: 33, lessonType: "VIDEO", sourceId: 33, courseId: 7 },
+    { id: 34, lessonType: "VIDEO", sourceId: 34, courseId: 7 },
+    { id: 35, lessonType: "VIDEO", sourceId: 35, courseId: 7 },
+    { id: 36, lessonType: "VIDEO", sourceId: 36, courseId: 8 },
+    { id: 37, lessonType: "VIDEO", sourceId: 37, courseId: 8 },
+    { id: 38, lessonType: "VIDEO", sourceId: 38, courseId: 8 },
+    { id: 39, lessonType: "VIDEO", sourceId: 39, courseId: 8 },
+    { id: 40, lessonType: "VIDEO", sourceId: 40, courseId: 8 },
+    { id: 41, lessonType: "VIDEO", sourceId: 41, courseId: 9 },
+    { id: 42, lessonType: "VIDEO", sourceId: 42, courseId: 9 },
+    { id: 43, lessonType: "VIDEO", sourceId: 43, courseId: 9 },
+    { id: 44, lessonType: "VIDEO", sourceId: 44, courseId: 9 },
+    { id: 45, lessonType: "VIDEO", sourceId: 45, courseId: 9 },
+    { id: 46, lessonType: "VIDEO", sourceId: 46, courseId: 10 },
+    { id: 47, lessonType: "VIDEO", sourceId: 47, courseId: 10 },
+    { id: 48, lessonType: "VIDEO", sourceId: 48, courseId: 10 },
+    { id: 49, lessonType: "VIDEO", sourceId: 49, courseId: 10 },
+    { id: 50, lessonType: "VIDEO", sourceId: 50, courseId: 10 },
   ],
   videos: [
     {
       id: 1,
-      title: "Introduction to JavaScript",
-      link: "https://example.com/videos/intro_js",
-      tumbnail: "intro_js_thumbnail.png",
-      length: 300,
-      course_id: 1,
+      link: "https://random.imagecdn.app/500/150?video=1",
+      title: "Course 1 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=1",
+      lessonNumber: 1,
+      duration: 253,
     },
     {
       id: 2,
-      title: "Advanced React Hooks",
-      link: "https://example.com/videos/react_hooks",
-      tumbnail: "react_hooks_thumbnail.png",
-      length: 450,
-      course_id: 2,
+      link: "https://random.imagecdn.app/500/150?video=2",
+      title: "Course 1 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=2",
+      lessonNumber: 2,
+      duration: 305,
+    },
+    {
+      id: 3,
+      link: "https://random.imagecdn.app/500/150?video=3",
+      title: "Course 1 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=3",
+      lessonNumber: 3,
+      duration: 131,
+    },
+    {
+      id: 4,
+      link: "https://random.imagecdn.app/500/150?video=4",
+      title: "Course 1 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=4",
+      lessonNumber: 4,
+      duration: 147,
+    },
+    {
+      id: 5,
+      link: "https://random.imagecdn.app/500/150?video=5",
+      title: "Course 1 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=5",
+      lessonNumber: 5,
+      duration: 353,
+    },
+    {
+      id: 6,
+      link: "https://random.imagecdn.app/500/150?video=6",
+      title: "Course 2 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=6",
+      lessonNumber: 1,
+      duration: 532,
+    },
+    {
+      id: 7,
+      link: "https://random.imagecdn.app/500/150?video=7",
+      title: "Course 2 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=7",
+      lessonNumber: 2,
+      duration: 264,
+    },
+    {
+      id: 8,
+      link: "https://random.imagecdn.app/500/150?video=8",
+      title: "Course 2 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=8",
+      lessonNumber: 3,
+      duration: 136,
+    },
+    {
+      id: 9,
+      link: "https://random.imagecdn.app/500/150?video=9",
+      title: "Course 2 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=9",
+      lessonNumber: 4,
+      duration: 215,
+    },
+    {
+      id: 10,
+      link: "https://random.imagecdn.app/500/150?video=10",
+      title: "Course 2 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=10",
+      lessonNumber: 5,
+      duration: 471,
+    },
+    {
+      id: 11,
+      link: "https://random.imagecdn.app/500/150?video=11",
+      title: "Course 3 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=11",
+      lessonNumber: 1,
+      duration: 129,
+    },
+    {
+      id: 12,
+      link: "https://random.imagecdn.app/500/150?video=12",
+      title: "Course 3 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=12",
+      lessonNumber: 2,
+      duration: 328,
+    },
+    {
+      id: 13,
+      link: "https://random.imagecdn.app/500/150?video=13",
+      title: "Course 3 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=13",
+      lessonNumber: 3,
+      duration: 349,
+    },
+    {
+      id: 14,
+      link: "https://random.imagecdn.app/500/150?video=14",
+      title: "Course 3 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=14",
+      lessonNumber: 4,
+      duration: 175,
+    },
+    {
+      id: 15,
+      link: "https://random.imagecdn.app/500/150?video=15",
+      title: "Course 3 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=15",
+      lessonNumber: 5,
+      duration: 341,
+    },
+    {
+      id: 16,
+      link: "https://random.imagecdn.app/500/150?video=16",
+      title: "Course 4 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=16",
+      lessonNumber: 1,
+      duration: 353,
+    },
+    {
+      id: 17,
+      link: "https://random.imagecdn.app/500/150?video=17",
+      title: "Course 4 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=17",
+      lessonNumber: 2,
+      duration: 297,
+    },
+    {
+      id: 18,
+      link: "https://random.imagecdn.app/500/150?video=18",
+      title: "Course 4 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=18",
+      lessonNumber: 3,
+      duration: 302,
+    },
+    {
+      id: 19,
+      link: "https://random.imagecdn.app/500/150?video=19",
+      title: "Course 4 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=19",
+      lessonNumber: 4,
+      duration: 509,
+    },
+    {
+      id: 20,
+      link: "https://random.imagecdn.app/500/150?video=20",
+      title: "Course 4 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=20",
+      lessonNumber: 5,
+      duration: 516,
+    },
+    {
+      id: 21,
+      link: "https://random.imagecdn.app/500/150?video=21",
+      title: "Course 5 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=21",
+      lessonNumber: 1,
+      duration: 540,
+    },
+    {
+      id: 22,
+      link: "https://random.imagecdn.app/500/150?video=22",
+      title: "Course 5 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=22",
+      lessonNumber: 2,
+      duration: 432,
+    },
+    {
+      id: 23,
+      link: "https://random.imagecdn.app/500/150?video=23",
+      title: "Course 5 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=23",
+      lessonNumber: 3,
+      duration: 168,
+    },
+    {
+      id: 24,
+      link: "https://random.imagecdn.app/500/150?video=24",
+      title: "Course 5 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=24",
+      lessonNumber: 4,
+      duration: 346,
+    },
+    {
+      id: 25,
+      link: "https://random.imagecdn.app/500/150?video=25",
+      title: "Course 5 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=25",
+      lessonNumber: 5,
+      duration: 284,
+    },
+    {
+      id: 26,
+      link: "https://random.imagecdn.app/500/150?video=26",
+      title: "Course 6 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=26",
+      lessonNumber: 1,
+      duration: 406,
+    },
+    {
+      id: 27,
+      link: "https://random.imagecdn.app/500/150?video=27",
+      title: "Course 6 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=27",
+      lessonNumber: 2,
+      duration: 386,
+    },
+    {
+      id: 28,
+      link: "https://random.imagecdn.app/500/150?video=28",
+      title: "Course 6 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=28",
+      lessonNumber: 3,
+      duration: 429,
+    },
+    {
+      id: 29,
+      link: "https://random.imagecdn.app/500/150?video=29",
+      title: "Course 6 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=29",
+      lessonNumber: 4,
+      duration: 459,
+    },
+    {
+      id: 30,
+      link: "https://random.imagecdn.app/500/150?video=30",
+      title: "Course 6 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=30",
+      lessonNumber: 5,
+      duration: 238,
+    },
+    {
+      id: 31,
+      link: "https://random.imagecdn.app/500/150?video=31",
+      title: "Course 7 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=31",
+      lessonNumber: 1,
+      duration: 176,
+    },
+    {
+      id: 32,
+      link: "https://random.imagecdn.app/500/150?video=32",
+      title: "Course 7 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=32",
+      lessonNumber: 2,
+      duration: 151,
+    },
+    {
+      id: 33,
+      link: "https://random.imagecdn.app/500/150?video=33",
+      title: "Course 7 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=33",
+      lessonNumber: 3,
+      duration: 486,
+    },
+    {
+      id: 34,
+      link: "https://random.imagecdn.app/500/150?video=34",
+      title: "Course 7 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=34",
+      lessonNumber: 4,
+      duration: 160,
+    },
+    {
+      id: 35,
+      link: "https://random.imagecdn.app/500/150?video=35",
+      title: "Course 7 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=35",
+      lessonNumber: 5,
+      duration: 248,
+    },
+    {
+      id: 36,
+      link: "https://random.imagecdn.app/500/150?video=36",
+      title: "Course 8 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=36",
+      lessonNumber: 1,
+      duration: 434,
+    },
+    {
+      id: 37,
+      link: "https://random.imagecdn.app/500/150?video=37",
+      title: "Course 8 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=37",
+      lessonNumber: 2,
+      duration: 415,
+    },
+    {
+      id: 38,
+      link: "https://random.imagecdn.app/500/150?video=38",
+      title: "Course 8 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=38",
+      lessonNumber: 3,
+      duration: 532,
+    },
+    {
+      id: 39,
+      link: "https://random.imagecdn.app/500/150?video=39",
+      title: "Course 8 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=39",
+      lessonNumber: 4,
+      duration: 385,
+    },
+    {
+      id: 40,
+      link: "https://random.imagecdn.app/500/150?video=40",
+      title: "Course 8 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=40",
+      lessonNumber: 5,
+      duration: 146,
+    },
+    {
+      id: 41,
+      link: "https://random.imagecdn.app/500/150?video=41",
+      title: "Course 9 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=41",
+      lessonNumber: 1,
+      duration: 523,
+    },
+    {
+      id: 42,
+      link: "https://random.imagecdn.app/500/150?video=42",
+      title: "Course 9 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=42",
+      lessonNumber: 2,
+      duration: 189,
+    },
+    {
+      id: 43,
+      link: "https://random.imagecdn.app/500/150?video=43",
+      title: "Course 9 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=43",
+      lessonNumber: 3,
+      duration: 227,
+    },
+    {
+      id: 44,
+      link: "https://random.imagecdn.app/500/150?video=44",
+      title: "Course 9 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=44",
+      lessonNumber: 4,
+      duration: 465,
+    },
+    {
+      id: 45,
+      link: "https://random.imagecdn.app/500/150?video=45",
+      title: "Course 9 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=45",
+      lessonNumber: 5,
+      duration: 296,
+    },
+    {
+      id: 46,
+      link: "https://random.imagecdn.app/500/150?video=46",
+      title: "Course 10 Lesson 1",
+      thumbnail: "https://random.imagecdn.app/500/150?video=46",
+      lessonNumber: 1,
+      duration: 289,
+    },
+    {
+      id: 47,
+      link: "https://random.imagecdn.app/500/150?video=47",
+      title: "Course 10 Lesson 2",
+      thumbnail: "https://random.imagecdn.app/500/150?video=47",
+      lessonNumber: 2,
+      duration: 333,
+    },
+    {
+      id: 48,
+      link: "https://random.imagecdn.app/500/150?video=48",
+      title: "Course 10 Lesson 3",
+      thumbnail: "https://random.imagecdn.app/500/150?video=48",
+      lessonNumber: 3,
+      duration: 172,
+    },
+    {
+      id: 49,
+      link: "https://random.imagecdn.app/500/150?video=49",
+      title: "Course 10 Lesson 4",
+      thumbnail: "https://random.imagecdn.app/500/150?video=49",
+      lessonNumber: 4,
+      duration: 337,
+    },
+    {
+      id: 50,
+      link: "https://random.imagecdn.app/500/150?video=50",
+      title: "Course 10 Lesson 5",
+      thumbnail: "https://random.imagecdn.app/500/150?video=50",
+      lessonNumber: 5,
+      duration: 370,
     },
   ],
-  user_video_stops: [
+  studentProgress: [
     {
-      user_id: 10,
-      video_id: 1,
-      order: 1,
-      course_id: 1,
+      studentId: 1,
+      lastCourseId: 1,
+      lessonWatchedToday: 12,
+      lastLessonWatchedDate: new Date(),
     },
     {
-      user_id: 11,
-      video_id: 2,
-      order: 1,
-      course_id: 2,
+      studentId: 2,
+      lastCourseId: 3,
+      lessonWatchedToday: 15,
+      lastLessonWatchedDate: new Date(),
     },
     {
-      user_id: 12,
-      video_id: 1,
-      order: 2,
-      course_id: 1,
+      studentId: 3,
+      lastCourseId: 1,
+      lessonWatchedToday: 11,
+      lastLessonWatchedDate: new Date(),
+    },
+    {
+      studentId: 4,
+      lastCourseId: 4,
+      lessonWatchedToday: 23,
+      lastLessonWatchedDate: new Date(),
+    },
+  ],
+  studentLastLessonsStops: [
+    {
+      studentId: 1,
+      lessonId: 1,
+    },
+    {
+      studentId: 2,
+      lessonId: 6,
+    },
+    {
+      studentId: 3,
+      lessonId: 5,
+    },
+    {
+      studentId: 4,
+      lessonId: 17,
+    },
+  ],
+  enrollments: [
+    {
+      studentId: 1,
+      courseId: 1,
+    },
+    {
+      studentId: 1,
+      courseId: 2,
+    },
+    {
+      studentId: 1,
+      courseId: 3,
+    },
+    {
+      studentId: 2,
+      courseId: 3,
+    },
+    {
+      studentId: 2,
+      courseId: 2,
+    },
+    {
+      studentId: 3,
+      courseId: 1,
+    },
+    {
+      studentId: 3,
+      courseId: 2,
+    },
+    {
+      studentId: 4,
+      courseId: 4,
     },
   ],
 };
 
 async function main() {
-  DATA.users.forEach(async (user) => {
+  DATA.users.forEach(async (user: any) => {
     await prisma.user.upsert({
       where: { id: user.id },
       update: {},
-      create: { ...user, provider: user.provider as any },
+      create: { ...user, id: user.id },
     });
   });
-  DATA.students.forEach(async (student) => {
-    await prisma.students.upsert({
-      where: { user_id: student.user_id },
+  DATA.students.forEach(async (student: any) => {
+    await prisma.student.upsert({
+      where: { id: student.id },
+      update: {},
+      create: { ...student, id: student.id },
+    });
+  });
+  DATA.teachers.forEach(async (teacher: any) => {
+    await prisma.teacher.upsert({
+      where: { id: teacher.id },
+      update: {},
+      create: { ...teacher, id: teacher.id },
+    });
+  });
+  DATA.streaks.forEach(async (streak: any) => {
+    await prisma.streak.upsert({
+      where: { studentId: streak.id },
       update: {},
       create: {
-        ...student,
+        value: streak.value,
+        lastAction: streak.lastAction,
+        studentId: streak.id,
       },
     });
   });
-  DATA.courses.forEach(async (course) => {
+  DATA.courses.forEach(async (course: any) => {
+    console.log(course);
     await prisma.course.upsert({
       where: { id: course.id },
       update: {},
-      create: course,
+      create: { id: course.id, ...course },
     });
   });
-  DATA.course_user.forEach(async (course_user) => {
-    await prisma.course_user.upsert({
-      where: { id: course_user.id },
-      update: {},
-      create: course_user,
-    });
-  });
-  DATA.videos.forEach(async (video) => {
-    await prisma.videos.upsert({
+  DATA.videos.forEach(async (video: any) => {
+    await prisma.video.upsert({
       where: { id: video.id },
       update: {},
-      create: video,
+      create: { ...video, id: video.id },
     });
   });
-  DATA.user_video_stops.forEach(async (user_video_stop) => {
-    await prisma.user_video_stops.upsert({
+  DATA.lessons.forEach(async (lesson: any) => {
+    await prisma.lesson.upsert({
+      where: { id: lesson.id },
+      update: {},
+      create: { ...lesson, id: lesson.id, sourceId: lesson.sourceId },
+    });
+  });
+  DATA.studentProgress.forEach(async (studentProgress: any) => {
+    await prisma.studentProgress.upsert({
+      where: { studentId: studentProgress.studentId },
+      update: {},
+      create: { ...studentProgress, studentId: studentProgress.studentId },
+    });
+  });
+  DATA.studentLastLessonsStops.forEach(async (studentLastLessonsStops: any) => {
+    await prisma.studentLastLessonsStops.upsert({
       where: {
-        user_id_course_id: {
-          user_id: user_video_stop.user_id,
-          course_id: user_video_stop.course_id,
+        studentId_lessonId: {
+          studentId: studentLastLessonsStops.studentId,
+          lessonId: studentLastLessonsStops.lessonId,
         },
       },
       update: {},
-      create: user_video_stop,
+      create: {
+        ...studentLastLessonsStops,
+        studentId: studentLastLessonsStops.studentId,
+      },
+    });
+  });
+  DATA.enrollments.forEach(async (enrollment: any) => {
+    await prisma.enrollment.upsert({
+      where: {
+        studentId_courseId: {
+          studentId: enrollment.studentId,
+          courseId: enrollment.courseId,
+        },
+      },
+      update: {},
+      create: { ...enrollment, studentId: enrollment.studentId },
     });
   });
 }
