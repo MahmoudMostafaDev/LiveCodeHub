@@ -7,7 +7,7 @@ interface props {
     image: string
 }
 const CardVideo: React.FC<props> = ({ title, image }) => {
-    const [showImage, setShowImage] = useState(image.startsWith("/") ? image : `/${image}`);
+    const [showImage, setShowImage] = useState(image.startsWith("http") ? image : `/${image}`);
     function onErrorHandler() {
         setShowImage("/Placeholders/video.png");
     }
