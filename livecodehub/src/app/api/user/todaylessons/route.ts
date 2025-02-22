@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { getStudentId } from "@/utils/DbQuery";
 import { prisma } from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { checkAuthorization } from "../../auth/authHelpers";
@@ -10,19 +11,25 @@ export async function GET(req: NextRequest) {
     const { id, isAuth } = await checkAuthorization(username);
     if (!isAuth || !id)
       return new Response(JSON.stringify({}), { status: 401 });
-    const lessonsCounter = await findLessonsCounter(id);
+    const studentId = await getStudentId(id);
+    if (studentId === -1)
+      return new Response(JSON.stringify({}), { status: 401 });
+    const lessonsCounter = await findLessonsCounter(studentId);
     if (!lessonsCounter) {
-      const newLessonsCounter = await updateCounter(id, 0);
+      const newLessonsCounter = await updateCounter(studentId, 0);
       return new Response(JSON.stringify(newLessonsCounter.progress), {
         status: 200,
       });
     } else {
-      if (isDoneThatDay(lessonsCounter.lastAction, new Date())) {
+      if (
+        lessonsCounter.lastAction &&
+        isDoneThatDay(lessonsCounter.lastAction, new Date())
+      ) {
         return new Response(JSON.stringify(lessonsCounter.progress), {
           status: 200,
         });
       } else {
-        const newLessonsCounter = await updateCounter(id, 0);
+        const newLessonsCounter = await updateCounter(studentId, 0);
         return new Response(JSON.stringify(newLessonsCounter.progress), {
           status: 200,
         });
@@ -46,7 +53,11 @@ export async function POST(req: NextRequest) {
       return new Response(JSON.stringify(newLessonsCounter.progress), {
         status: 200,
       });
-    } else if (isDoneThatDay(lessonsCounter.lastAction, new Date())) {
+    } else if (
+      lessonsCounter.lastAction &&
+      lessonsCounter.progress &&
+      isDoneThatDay(lessonsCounter.lastAction, new Date())
+    ) {
       const newLessonsCounter = await updateCounter(
         id,
         lessonsCounter.progress + 1
@@ -76,28 +87,31 @@ function isDoneThatDay(lastAction: Date, day: Date) {
 }
 
 async function findLessonsCounter(id: number) {
-  const data = await prisma.students.findUnique({
-    where: { user_id: id },
+  const data = await prisma.studentProgress.findUnique({
+    where: { studentId: id },
     select: {
-      todayCounter: true,
-      counterData: true,
+      lessonWatchedToday: true,
+      lastLessonWatchedDate: true,
     },
   });
   if (!data) return null;
-  return { progress: data.todayCounter, lastAction: data.counterData };
+  return {
+    progress: data.lessonWatchedToday,
+    lastAction: data.lastLessonWatchedDate,
+  };
 }
 
 async function updateCounter(id: number, value: number) {
-  const newCounter = await prisma.students.update({
-    where: { user_id: id },
+  const newCounter = await prisma.studentProgress.update({
+    where: { studentId: id },
     data: {
-      todayCounter: value,
-      counterData: new Date(),
+      lessonWatchedToday: value,
+      lastLessonWatchedDate: new Date(),
     },
   });
 
   return {
-    progress: newCounter.todayCounter,
-    lastAction: newCounter.counterData,
+    progress: newCounter.lessonWatchedToday,
+    lastAction: newCounter.lastLessonWatchedDate,
   };
 }
