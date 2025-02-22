@@ -9,6 +9,7 @@ import MainLesson from "@/.components/cards/MainLesson";
 const useRenderMainPage = (continueLearning: continueLearningType, popular: PopularType, mainVideo: MainVideoType) => {
 
   function getPopularVideos(): React.JSX.Element[] | React.JSX.Element {
+    console.log(popular.data);
     if (popular.isLoading) return <p>Loading...</p>;
     if (popular.error.message != "") console.log(popular.error.message);
     if (popular.data?.length) {
@@ -30,14 +31,14 @@ const useRenderMainPage = (continueLearning: continueLearningType, popular: Popu
     if (continueLearning.error.message != "") console.log(continueLearning.error.message);
     if (continueLearning.data?.length) {
       return continueLearning.data.map((video) => {
-        const finisherd = (video.order / video.course.counter) * 100;
+        const finisherd = (video.lessonNumber / video.lesson.course.lessons) * 100;
         return (
           <ContinueLearning
-            key={video.video.title}
-            title={video.video.title}
-            course={video.course.name}
+            key={video.title}
+            title={video.title}
+            course={video.lesson.course.name}
             finished={finisherd}
-            image={video.video.tumbnail}
+            image={video.thumbnail}
           />
         );
       });

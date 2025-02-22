@@ -1,7 +1,6 @@
 //GET fetch Functions should return this structure : { data : any, error : string, showErrorToUser : boolean }
 
 import type { GetStructure } from "../hooks/useGet";
-import Link from "next/link";
 
 async function getFunction<T>(
   url: string,
@@ -135,14 +134,24 @@ const continueLearningError = async (
   return { data: null, error, showErrorToUser };
 };
 export type ContinueLearningvideo = {
-  course: {
-    name: string;
-    counter: number;
-  };
-  order: number;
-  video: {
-    title: string;
-    tumbnail: string;
+  // course: {
+  //   name: string;
+  //   counter: number;
+  // };
+  // order: number;
+  // video: {
+  //   title: string;
+  //   tumbnail: string;
+  // };
+  title: string;
+  thumbnail: string;
+  lessonNumber: number;
+  link: string;
+  lesson: {
+    course: {
+      name: string;
+      lessons: number;
+    };
   };
 };
 export const getContinueLearning = async () =>

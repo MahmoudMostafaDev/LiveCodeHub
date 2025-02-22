@@ -1,6 +1,4 @@
-import NextAuth, { getServerSession } from "next-auth";
 import { NextRequest } from "next/server";
-import { options } from "../../auth/[...nextauth]/options";
 import { prisma } from "@/lib/prisma";
 import { getToken } from "next-auth/jwt";
 import { checkAuthorization } from "../../auth/authHelpers";
@@ -12,25 +10,29 @@ export async function GET(req: NextRequest) {
   try {
     if (!checkAuthorization(username))
       return new Response("Unauthorized", { status: 401 });
-    const videos = await prisma.user_video_stops.findMany({
+    const videos = await prisma.video.findMany({
       where: {
-        students: {
-          user_id: Number(id),
+        lesson: {
+          studentLastLessonsStops: {
+            some: {
+              studentId: Number(id),
+            },
+          },
         },
       },
       select: {
-        order: true,
-        video: {
+        title: true,
+        thumbnail: true,
+        lessonNumber: true,
+        link: true,
+        lesson: {
           select: {
-            id: true,
-            tumbnail: true,
-            title: true,
-          },
-        },
-        course: {
-          select: {
-            name: true,
-            counter: true,
+            course: {
+              select: {
+                name: true,
+                lessons: true,
+              },
+            },
           },
         },
       },
