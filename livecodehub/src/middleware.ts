@@ -25,6 +25,7 @@ async function manageProtectedPages(
   token: JWT | null
 ) {
   const { pathname } = req.nextUrl;
+
   if (
     !token &&
     !pathname.startsWith("/landing") &&
@@ -35,6 +36,8 @@ async function manageProtectedPages(
     token &&
     ["/auth", "/landing"].some((route) => pathname.startsWith(route))
   ) {
+    return NextResponse.redirect(new URL("/", req.url));
+  } else if (pathname.startsWith("/admin") && token?.name !== "maged") {
     return NextResponse.redirect(new URL("/", req.url));
   }
 }

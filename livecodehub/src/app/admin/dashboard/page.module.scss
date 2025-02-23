@@ -1,0 +1,35 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
+.root {
+  color: white;
+  @include mixins.maxBreakpoint(variables.$xlarge) {
+    width: 100%;
+  }
+  h1 {
+    text-align: center;
+  }
+  button {
+    margin-top: 20px;
+  }
+  .formsContainer {
+    display: flex;
+    gap: 100px;
+    @include mixins.maxBreakpoint(variables.$xlarge) {
+      justify-content: center;
+    }
+    @include mixins.maxBreakpoint(variables.$small) {
+      flex-direction: column;
+    }
+  }
+  p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+  .formOne {
+    max-width: 500px;
+  }
+  .formTwo {
+    max-width: 500px;
+  }
+}
