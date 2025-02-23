@@ -3,7 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { randomBytes, scrypt } from "crypto";
 import { promisify } from "util";
 import { validateUsername } from "@/utils/Validate";
-import { error } from "console";
+import { getServerSession } from "next-auth";
+import { options } from "@/app/api/auth/[...nextauth]/options";
 
 export async function signup(userData: { username: string; password: string }) {
   /* codes\
