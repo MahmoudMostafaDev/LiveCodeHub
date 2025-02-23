@@ -19,16 +19,17 @@ export async function POST(req: NextRequest) {
   try {
     if (!checkAuthorization(username))
       return new Response(JSON.stringify({}), { status: 401 });
-    if (checkIsValid(course).code !== 200)
+    const validation = await checkIsValid(course);
+    if (validation.code !== 200)
       return new Response(
         JSON.stringify({
-          error: checkIsValid(course).error,
-          code: checkIsValid(course).code,
+          error: validation.error,
+          code: validation.code,
         }),
         { status: 400 }
       );
     //reset the course id autoincrement , in case that there is random added record in database , it doesn't affect the autoincrement
-    prisma.$queryRaw`SELECT setval(pg_get_serial_sequence('course', 'id'), (SELECT MAX(id) FROM course));
+    await prisma.$queryRaw`SELECT setval(pg_get_serial_sequence('course', 'id'), (SELECT MAX(id) FROM course));
 `;
     const newCourse = await prisma.course.create({
       data: {
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function checkIsValid(course: courseType) {
+async function checkIsValid(course: courseType) {
   if (
     !course.name ||
     !course.description ||
@@ -61,11 +62,20 @@ function checkIsValid(course: courseType) {
       error: "some fields are missing",
       code: 100,
     };
-  if (isNaN(course.popularity) || isNaN(course.lessons))
+  if (
+    typeof course.popularity !== "number" ||
+    typeof course.lessons !== "number"
+  )
     return {
       error: "popularity and lessons should be a number",
       code: 101,
     };
+  if (await prisma.course.findUnique({ where: { name: course.name } })) {
+    return {
+      error: "course name already exists",
+      code: 102,
+    };
+  }
   return {
     error: "",
     code: 200,
