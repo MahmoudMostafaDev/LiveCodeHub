@@ -52,7 +52,7 @@ const useRenderMainPage = (continueLearning: continueLearningType, popular: Popu
   const popularVideos = useMemo(() => popular.data && popular.data.length > 0 ?
     getPopularVideos() : null, [popular.data])
   const mainVideoRender = useMemo(() => mainVideo.data ?
-    mainVideo.data ? <MainLesson title={mainVideo.data.course} description={mainVideo.data.title} image={mainVideo.data.tumbnail} finished={mainVideo.data.order / mainVideo.data.totalVideos * 100} lesson={mainVideo.data.order} /> : <></> : null, [mainVideo.data]);
+    mainVideo.data ? <MainLesson courseName={mainVideo.data.lesson.course.name} lessonTitle={mainVideo.data.title} thumbnail={mainVideo.data.thumbnail} finished={mainVideo.data.lesson.course.lessons / mainVideo.data.lessonNumber * 100} lesson={mainVideo.data.lessonNumber} /> : <></> : null, [mainVideo.data]);
   return {
     continueLearningVideos,
     popularVideos,

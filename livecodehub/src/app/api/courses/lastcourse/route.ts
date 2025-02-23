@@ -19,35 +19,19 @@ export async function GET(req: NextRequest) {
 }
 
 async function getLastVideo(id: string) {
-  const course = await prisma.course.findFirst({
+  const video = await prisma.video.findFirst({
     where: {
-      id: {
-        equals: (
-          await prisma.students.findFirst({
-            where: {
-              user_id: Number(id),
+      lesson: {
+        studentLastLessonsStops: {
+          some: {
+            studentId: Number(id),
+          },
+        },
+        course: {
+          studentProgress: {
+            some: {
+              studentId: Number(id),
             },
-            select: {
-              last_course: true,
-            },
-          })
-        )?.last_course as number,
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-      counter: true,
-    },
-  });
-  if (!course) return null;
-  const video = await prisma.videos.findFirst({
-    where: {
-      user_video_stops: {
-        some: {
-          user_id: Number(id),
-          course_id: {
-            equals: course.id,
           },
         },
       },
@@ -56,10 +40,20 @@ async function getLastVideo(id: string) {
       id: true,
       link: true,
       title: true,
-      tumbnail: true,
-      length: true,
-      order: true,
+      thumbnail: true,
+      duration: true,
+      lessonNumber: true,
+      lesson: {
+        select: {
+          course: {
+            select: {
+              name: true,
+              lessons: true,
+            },
+          },
+        },
+      },
     },
   });
-  return { ...video, course: course.name, totalVideos: course.counter };
+  return video;
 }

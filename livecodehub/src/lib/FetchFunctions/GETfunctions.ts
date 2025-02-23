@@ -196,11 +196,15 @@ export type mainVideo = {
   id: number;
   link: string;
   title: string;
-  tumbnail: string;
-  length: number;
-  order: number;
-  course: string;
-  totalVideos: number;
+  thumbnail: string;
+  duration: number;
+  lessonNumber: number;
+  lesson: {
+    course: {
+      name: string;
+      lessons: number;
+    };
+  };
 };
 
 const mainVideoError = async (res: Response): Promise<GetStructure<null>> => {
