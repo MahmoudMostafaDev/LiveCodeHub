@@ -37,7 +37,8 @@ async function manageProtectedPages(
     ["/auth", "/landing"].some((route) => pathname.startsWith(route))
   ) {
     return NextResponse.redirect(new URL("/", req.url));
-  } else if (pathname.startsWith("/admin") && token?.name !== "maged") {
+  } else if (pathname.startsWith("/admin") && token?.id !== "1") {
+    console.log(token);
     return NextResponse.redirect(new URL("/", req.url));
   }
 }

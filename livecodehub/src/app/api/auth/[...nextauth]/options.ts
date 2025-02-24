@@ -70,7 +70,7 @@ export const options = {
           where: { username: credentials?.username },
           select: { id: true, username: true, password: true },
         });
-        if (user?.username === "maged") {
+        if (user?.id === 1) {
           return {
             id: user.id.toString() || credentials.username,
             username: user.username,
