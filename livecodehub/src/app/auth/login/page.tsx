@@ -6,9 +6,9 @@ import Textfield from '../../../.components/ui/Textfield';
 import Passwordfield from '../../../.components/ui/Passwordfield';
 import Button from '@/.components/ui/Button';
 import photo from "@/../public/auth/login.png"
-import { signIn, signOut } from 'next-auth/react';
-import ErrorAuth from '@/app/api/lib/Error';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+
 const Page = () => {
     const router = useRouter();
     const [error, setError] = useState("");
@@ -24,6 +24,7 @@ const Page = () => {
             setError(result?.error as string);
             return
         }
+
         router.push("/")
     }
     return (
