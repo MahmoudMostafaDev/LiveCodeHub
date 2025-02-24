@@ -9,7 +9,12 @@ const useGetAllUserData = () => {
   const streak = useGet(getStreak);
   const userInfo = useGet(getUserInfor);
   const todayLessons = useGet(getTodayLessons);
-  return { streak, userInfo, todayLessons };
+  function refresh() {
+    streak.reFetch();
+    userInfo.reFetch();
+    todayLessons.reFetch();
+  }
+  return { streak, userInfo, todayLessons, refresh };
 };
 
 export default useGetAllUserData;

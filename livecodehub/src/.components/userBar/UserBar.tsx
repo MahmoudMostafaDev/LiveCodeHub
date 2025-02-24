@@ -1,10 +1,12 @@
 "use client"
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import styles from '@/styles/components/userBar/UserBar.module.scss';
-import { useAppSelector } from '@/lib/reduxHooks';
+import { useAppSelector, useAppDispatch } from '@/lib/reduxHooks';
+import { actions } from '@/features/controlUI/controlUISlice';
 import Button from '../ui/Button';
 import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
+
 import UserProfile from './UserProfile';
 import CloseButton from './CloseButton';
 import useGetAllUserData from '@/lib/hooks/useGetAllUserData';
@@ -26,9 +28,7 @@ import useGetAllUserData from '@/lib/hooks/useGetAllUserData';
  * @returns The UserBar component.
  */
 const UserBar = () => {
-    const pathname = useRef(usePathname());
-    const hiddenPaths = new Set(["/auth/login", "/auth/signup", "/landing"]);
-    if (hiddenPaths.has(pathname.current)) return null;
+
     const store = useAppSelector(state => state.controUI);
     const { streak, userInfo, todayLessons } = useGetAllUserData();
     function getValue({ data, error, isLoading }: { data: any, error: { message: string, showErrorToUser: boolean }, isLoading: boolean }, loading: React.JSX.Element, success: React.JSX.Element, hideError: React.JSX.Element, showError: React.JSX.Element) {
@@ -74,7 +74,6 @@ const UserBar = () => {
             <p>Today Lessons : {todayLessonsValue} </p>
             <Button title='Logout' onClick={() => signOut()} />
         </div>
-
     );
 }
 

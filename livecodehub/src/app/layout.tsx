@@ -4,10 +4,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/global.scss";
 import { Inria_Sans } from "next/font/google";
 import { Irish_Grover } from "next/font/google";
-import Sidebar from "@/.components/Sidebar/Sidebar";
-import UserBar from "@/.components/userBar/UserBar";
+
 import ReduxProvider from '../.components/ReduxProvider';
 import AuthProvider from "./clientMember/authProvider";
+import BarsProvider from '../.components/providers/BarsProvider';
 
 const irishGrover = Irish_Grover({
   variable: "--font-irish-grover",
@@ -45,9 +45,9 @@ export default function RootLayout({
       <AuthProvider>
         <ReduxProvider>
           <body style={{ display: 'flex', justifyContent: 'space-between' }} className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
-            <Sidebar />
-            {children}
-            <UserBar />
+            <BarsProvider >
+              {children}
+            </BarsProvider>
           </body></ReduxProvider></AuthProvider>
 
     </html>
