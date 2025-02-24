@@ -44,10 +44,13 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <ReduxProvider>
-          <body style={{ display: 'flex', justifyContent: 'space-between' }} className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
-            <BarsProvider >
-              {children}
-            </BarsProvider>
+          <body className={`${geistSans.variable} ${irishGrover.variable} ${inriaSans.variable} ${geistMono.variable}`}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <BarsProvider >
+                {children}
+              </BarsProvider>
+            </div>
+
           </body></ReduxProvider></AuthProvider>
 
     </html>
