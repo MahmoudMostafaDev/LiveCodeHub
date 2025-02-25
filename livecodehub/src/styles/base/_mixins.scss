@@ -41,6 +41,18 @@
   }
 }
 
+@mixin pageProperties() {
+  padding: 0;
+  position: sticky;
+  @include breakpoint(variables.$xlarge) {
+    flex-grow: 1;
+    max-width: calc(100% - 600px);
+  }
+  @include maxBreakpoint(variables.$xlarge) {
+    min-width: 100%;
+  }
+}
+
 @mixin breakpoint($breakpoint) {
   @media screen and (min-width: $breakpoint) {
     @content;
