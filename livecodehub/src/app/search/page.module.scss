@@ -1,0 +1,6 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
+.container {
+  @include mixins.pageProperties();
+  color: white;
+}
