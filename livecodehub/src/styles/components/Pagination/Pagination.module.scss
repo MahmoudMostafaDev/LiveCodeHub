@@ -1,0 +1,54 @@
+@use "@/styles/base/_variables.scss";
+@use "@/styles/base/_mixins.scss";
+.container {
+  padding: 10px 20px;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .pagination {
+    display: flex;
+    gap: 10px;
+    .page {
+      background-color: variables.$background-two-color;
+      height: 35px;
+      width: fit-content;
+      padding: 0 13px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      &:last-child:not(.active) {
+        color: variables.$gray-text-color;
+      }
+      &.active {
+        color: variables.$primary-color;
+      }
+    }
+  }
+  .body {
+    width: 100%;
+    min-height: 50vh;
+    .grid {
+      padding: 0;
+      display: grid;
+      list-style: none;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      place-content: center;
+      gap: 40px;
+      li {
+        margin: 0 auto;
+      }
+    }
+  }
+  .content {
+    padding: 10px 50px;
+    @include mixins.maxBreakpoint(variables.$small) {
+      padding: 10px 10px;
+    }
+  }
+}
